@@ -1,0 +1,8 @@
+D:\Projects\ASP.NET\SchemaApi\Common\bin\Debug\netstandard2.0\Common.deps.json
+D:\Projects\ASP.NET\SchemaApi\Common\bin\Debug\netstandard2.0\Common.dll
+D:\Projects\ASP.NET\SchemaApi\Common\bin\Debug\netstandard2.0\Common.pdb
+D:\Projects\ASP.NET\SchemaApi\Common\obj\Debug\netstandard2.0\Common.csproj.CoreCompileInputs.cache
+D:\Projects\ASP.NET\SchemaApi\Common\obj\Debug\netstandard2.0\Common.AssemblyInfoInputs.cache
+D:\Projects\ASP.NET\SchemaApi\Common\obj\Debug\netstandard2.0\Common.AssemblyInfo.cs
+D:\Projects\ASP.NET\SchemaApi\Common\obj\Debug\netstandard2.0\Common.dll
+D:\Projects\ASP.NET\SchemaApi\Common\obj\Debug\netstandard2.0\Common.pdb

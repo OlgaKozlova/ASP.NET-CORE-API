@@ -1,0 +1,17 @@
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\SchemaApi.deps.json
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\SchemaApi.runtimeconfig.json
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\SchemaApi.runtimeconfig.dev.json
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\SchemaApi.dll
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\SchemaApi.pdb
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\Common.dll
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\DataAccessLayer.dll
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\Domain.dll
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\DataAccessLayer.pdb
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\Domain.pdb
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\bin\Debug\netcoreapp2.0\Common.pdb
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\obj\Debug\netcoreapp2.0\SchemaApi.csprojResolveAssemblyReference.cache
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\obj\Debug\netcoreapp2.0\SchemaApi.csproj.CoreCompileInputs.cache
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\obj\Debug\netcoreapp2.0\SchemaApi.AssemblyInfoInputs.cache
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\obj\Debug\netcoreapp2.0\SchemaApi.AssemblyInfo.cs
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\obj\Debug\netcoreapp2.0\SchemaApi.dll
+D:\Projects\ASP.NET\SchemaApi\SchemaApi\obj\Debug\netcoreapp2.0\SchemaApi.pdb
