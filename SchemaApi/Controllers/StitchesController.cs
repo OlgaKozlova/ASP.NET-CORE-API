@@ -1,6 +1,7 @@
 ﻿using Domain.Contracts;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,48 +13,115 @@ namespace SchemasApi.Controllers
     public class StitchesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger _logger;
+        private const string _name = "Stitch";
 
-        public StitchesController(IUnitOfWork unitOfWork)
+        public StitchesController(IUnitOfWork unitOfWork, ILogger logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         // GET api/stitches
         [HttpGet]
-        public IEnumerable<Stitch> Get()
+        public IActionResult Get()
         {
-            return _unitOfWork.StitchRepository.GetAll();
+            try
+            {
+                return Ok(_unitOfWork.StitchRepository.GetAll());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
 
-        // GET api/stitches/5
+        // GET api/schemas/5
         [HttpGet("{id}")]
-        public Stitch Get(Guid id)
+        public IActionResult Get(Guid id)
         {
-            return _unitOfWork.StitchRepository.GetById(id);
+            try
+            {
+                var Schema = _unitOfWork.StitchRepository.GetById(id);
+                if (Schema != null)
+                {
+                    return Ok(_unitOfWork.StitchRepository.GetById(id));
+                }
+                return NotFound();
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
 
-        // POST api/stitches
+        // POST api/schemas
         [HttpPost]
-        public void Post([FromBody]Stitch value)
+        public IActionResult Post([FromBody]Stitch value)
         {
-            _unitOfWork.StitchRepository.Add(value);
-            _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.StitchRepository.Add(value);
+                _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (ArgumentNullException e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return BadRequest($@"{_name} is not valid");
+            }
+            catch (Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
 
-        // PUT api/stitches/5
+        // PUT api/schemas/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Stitch value)
+        public IActionResult Put(Guid id, [FromBody]Stitch value)
         {
-            _unitOfWork.StitchRepository.Update(value);
-            _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.StitchRepository.Add(value);
+                _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (ArgumentNullException e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return BadRequest($@"{_name} is not valid");
+            }
+            catch (Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
 
-        // DELETE api/stitches/5
+        // DELETE api/schemas/5
         [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        public IActionResult Delete(Guid id)
         {
-            _unitOfWork.StitchRepository.Delete(id);
-            _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.StitchRepository.Delete(id);
+                _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
     }
 }

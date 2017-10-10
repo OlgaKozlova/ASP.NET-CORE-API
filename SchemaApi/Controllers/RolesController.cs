@@ -1,6 +1,7 @@
 ﻿using Domain.Contracts;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,48 +13,116 @@ namespace SchemaApi.Controllers
     public class RolesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger _logger;
+        private const string _name = "Role";
 
-        public RolesController(IUnitOfWork unitOfWork)
+        public RolesController(IUnitOfWork unitOfWork, ILogger<RolesController> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         // GET api/roles
         [HttpGet]
-        public IEnumerable<Role> Get()
+        public IActionResult Get()
         {
-            return _unitOfWork.RoleRepository.GetAll();
+            try
+            {
+                return Ok(_unitOfWork.RoleRepository.GetAll());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
 
         // GET api/roles/5
         [HttpGet("{id}")]
-        public Role Get(Guid id)
+        public IActionResult Get(Guid id)
         {
-            return _unitOfWork.RoleRepository.GetById(id);
+            try
+            {
+                var Role = _unitOfWork.RoleRepository.GetById(id);
+                if (Role != null)
+                {
+                    return Ok(_unitOfWork.RoleRepository.GetById(id));
+                }
+                return NotFound();
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
+            
         }
 
         // POST api/roles
         [HttpPost]
-        public void Post([FromBody]Role value)
+        public IActionResult Post([FromBody]Role value)
         {
-            _unitOfWork.RoleRepository.Add(value);
-            _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.RoleRepository.Add(value);
+                _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (ArgumentNullException e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return BadRequest($@"{_name} is not valid");
+            }
+            catch (Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
 
         // PUT api/roles/5
         [HttpPut("{id}")]
-        public void Put(Guid id, [FromBody]Role value)
+        public IActionResult Put(Guid id, [FromBody]Role value)
         {
-            _unitOfWork.RoleRepository.Update(value);
-            _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.RoleRepository.Add(value);
+                _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (ArgumentNullException e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return BadRequest($@"{_name} is not valid");
+            }
+            catch (Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
 
         // DELETE api/roles/5
         [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        public IActionResult Delete(Guid id)
         {
-            _unitOfWork.RoleRepository.Delete(id);
-            _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.CategoryRepository.Delete(id);
+                _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
     }
 }

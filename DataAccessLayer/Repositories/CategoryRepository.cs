@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Domain.Entities;
 using System.Linq;
+using Common.Expect;
 
 namespace DataAccessLayer.Repositories
 {
@@ -14,18 +15,8 @@ namespace DataAccessLayer.Repositories
 
         public CategoryRepository(StorageContext context)
         {
+            Expect.ArgumentNotNull(context, "context");
             _context = context;
-        }
-
-        public void Add(Category entity)
-        {
-            _context.Categories.Add(entity);
-        }
-
-        public void Delete(Guid id)
-        {
-            var entity =_context.Categories.Find(id);
-            _context.Categories.Remove(entity);
         }
 
         public ICollection<Category> GetAll()
@@ -35,11 +26,29 @@ namespace DataAccessLayer.Repositories
 
         public Category GetById(Guid id)
         {
+            Expect.ArgumentNotNull(id, "id");
             return _context.Categories.Find(id);
         }
 
+        public void Add(Category entity)
+        {
+            Expect.ArgumentNotNull(entity, "category");
+            _context.Categories.Add(entity);
+        }
+
+        public void Delete(Guid id)
+        {
+            Expect.ArgumentNotNull(id, "id");
+            var entity =_context.Categories.Find(id);
+            if (entity != null)
+            {
+                _context.Categories.Remove(entity);
+            }            
+        }
+                
         public void Update(Category entity)
         {
+            Expect.ArgumentNotNull(entity, "category");
             _context.Categories.Update(entity);
         }
     }

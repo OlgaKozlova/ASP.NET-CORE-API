@@ -20,7 +20,7 @@ namespace SchemaApi
 
             using (var scope = host.Services.CreateScope())
             {
-                var services = scope.ServiceProvider;
+                var services = scope.ServiceProvider;                
                 try
                 {
                     var context = services.GetRequiredService<StorageContext>();
@@ -34,11 +34,20 @@ namespace SchemaApi
             }
 
             host.Run();
+
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging(ConfigureLogger)
                 .UseStartup<Startup>()
                 .Build();
+
+        static void ConfigureLogger(WebHostBuilderContext ctx, ILoggingBuilder logging)
+        {
+            logging.AddConfiguration(ctx.Configuration.GetSection("Logging"));
+            logging.AddConsole();
+            logging.AddDebug();
+        }
     }
 }

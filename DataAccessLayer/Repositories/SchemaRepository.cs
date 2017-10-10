@@ -17,7 +17,7 @@ namespace DataAccessLayer.Repositories
 
         public void Add(Schema entity)
         {
-            throw new NotImplementedException();
+            _context.Schemas.Add(entity);
         }
 
         public void Delete(Guid id)

@@ -18,6 +18,10 @@ namespace DataAccessLayer
         public DbSet<Schema> Schemas { get; set; }
         public DbSet<Stitch> Stitches { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<SchemaStitch> SchemaStitches { get; set; }
+        public DbSet<SchemaImage> SchemaImages { get; set; }
+        public DbSet<SchemaFile> SchemaFiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

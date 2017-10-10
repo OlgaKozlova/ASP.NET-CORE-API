@@ -2,6 +2,7 @@
 using Domain.Contracts.Repositories;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,48 +15,116 @@ namespace SchemaApi.Controllers
     public class CategoriesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger _logger;
+        private const string _name = "Category";
 
-        public CategoriesController(IUnitOfWork unitOfWork)
+        public CategoriesController(IUnitOfWork unitOfWork, ILogger<CategoriesController> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         // GET api/categories
         [HttpGet]
-        public IEnumerable<Category> Get()
+        public IActionResult Get()
         {
-            return _unitOfWork.CategoryRepository.GetAll();
+            try
+            {
+                return Ok(_unitOfWork.CategoryRepository.GetAll());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }            
         }
 
         // GET api/categories/5
         [HttpGet("{id}")]
-        public Category Get(Guid id)
+        public IActionResult Get(Guid id)
         {
-            return _unitOfWork.CategoryRepository.GetById(id);
+            try
+            {
+                var Category = _unitOfWork.CategoryRepository.GetById(id);
+                if (Category != null)
+                {
+                    return Ok(_unitOfWork.CategoryRepository.GetById(id));
+                }
+                return NotFound();
+                
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
 
         // POST api/categories
         [HttpPost]
-        public void Post([FromBody]Category value)
+        public IActionResult Post([FromBody]Category value)
         {
-            _unitOfWork.CategoryRepository.Add(value);
-            _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.CategoryRepository.Add(value);
+                _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (ArgumentNullException e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return BadRequest($@"{_name} is not valid");
+            }
+            catch (Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }
         }
 
         // PUT api/categories/5
         [HttpPut("{id}")]
-        public void Put(Guid id, [FromBody]Category value)
+        public IActionResult Put(Guid id, [FromBody]Category value)
         {
-            _unitOfWork.CategoryRepository.Update(value);
-            _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.CategoryRepository.Update(value);
+                _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (ArgumentNullException e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return BadRequest($@"{_name} is not valid");
+            }
+            catch (Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return StatusCode(500, e.Message);
+            }
+            
         }
 
         // DELETE api/categories/5
         [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        public IActionResult Delete(Guid id)
         {
-            _unitOfWork.CategoryRepository.Delete(id);
-            _unitOfWork.Commit();
+            try
+            {
+                _unitOfWork.CategoryRepository.Delete(id);
+                _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                return StatusCode(500);
+            }            
         }
     }
 }

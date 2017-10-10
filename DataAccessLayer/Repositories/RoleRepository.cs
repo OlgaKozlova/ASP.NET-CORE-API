@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Domain.Entities;
+using System.Linq;
 
 namespace DataAccessLayer.Repositories
 {
@@ -17,27 +18,28 @@ namespace DataAccessLayer.Repositories
 
         public void Add(Role entity)
         {
-            throw new NotImplementedException();
+            _context.Roles.Add(entity);
         }
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var Role = _context.Roles.Find(id);
+            _context.Roles.Remove(Role);
         }
 
         public ICollection<Role> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Roles.ToList();
         }
 
         public Role GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return _context.Roles.Find(id);
         }
 
         public void Update(Role entity)
         {
-            throw new NotImplementedException();
+            _context.Roles.Update(entity);
         }
     }
 }

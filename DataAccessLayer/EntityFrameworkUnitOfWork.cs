@@ -69,7 +69,7 @@ namespace DataAccessLayer
 
         public void Rollback()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

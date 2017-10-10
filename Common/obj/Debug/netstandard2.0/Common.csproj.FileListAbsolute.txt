@@ -6,3 +6,4 @@ D:\Projects\ASP.NET\SchemaApi\Common\obj\Debug\netstandard2.0\Common.AssemblyInf
 D:\Projects\ASP.NET\SchemaApi\Common\obj\Debug\netstandard2.0\Common.AssemblyInfo.cs
 D:\Projects\ASP.NET\SchemaApi\Common\obj\Debug\netstandard2.0\Common.dll
 D:\Projects\ASP.NET\SchemaApi\Common\obj\Debug\netstandard2.0\Common.pdb
+D:\Projects\ASP.NET\SchemaApi\Common\obj\Debug\netstandard2.0\Common.csprojResolveAssemblyReference.cache

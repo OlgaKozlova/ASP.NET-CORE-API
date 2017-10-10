@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Domain.Contracts.Repositories;
 using Domain.Entities;
+using System.Linq;
 
 namespace DataAccessLayer.Repositories
 {
@@ -17,27 +18,31 @@ namespace DataAccessLayer.Repositories
 
         public void Add(User entity)
         {
-            throw new NotImplementedException();
+            _context.Users.Add(entity);
         }
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var User = _context.Users.Find(id);
+            if (User != null)
+            {
+                _context.Users.Remove(User);
+            }           
         }
 
         public ICollection<User> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Users.ToList();
         }
 
         public User GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return _context.Users.Find(id);
         }
 
         public void Update(User entity)
         {
-            throw new NotImplementedException();
+            _context.Users.Update(entity);
         }
     }
 }
