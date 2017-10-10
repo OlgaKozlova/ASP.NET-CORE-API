@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Domain.Entities;
+using Common.Expect;
+using System.Linq;
 
 namespace DataAccessLayer.Repositories
 {
@@ -12,32 +14,41 @@ namespace DataAccessLayer.Repositories
 
         public SchemaFileRepository(StorageContext context)
         {
+            Expect.ArgumentNotNull(context, "context");
             _context = context;
         }
 
         public void Add(SchemaFile entity)
         {
+            Expect.ArgumentNotNull(entity, "SchemaFile");
             _context.SchemaFiles.Add(entity);
         }
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            Expect.ArgumentNotNull(id, "id");
+            var SchemaFile = _context.SchemaFiles.Find(id);
+            if (SchemaFile != null)
+            {
+                _context.SchemaFiles.Remove(SchemaFile);
+            }
         }
 
         public ICollection<SchemaFile> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.SchemaFiles.ToList();
         }
 
         public SchemaFile GetById(Guid id)
         {
-            throw new NotImplementedException();
+            Expect.ArgumentNotNull(id, "id");
+            return _context.SchemaFiles.Find(id);
         }
 
         public void Update(SchemaFile entity)
         {
-            throw new NotImplementedException();
+            Expect.ArgumentNotNull(entity, "SchemaFile");
+            _context.SchemaFiles.Update(entity);
         }
     }
 }
